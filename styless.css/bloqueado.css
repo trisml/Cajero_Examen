@@ -1,8 +1,15 @@
 body{
-    background-color: red;
+    
+    background: linear-gradient(rgb(193, 56, 37),rgb(249, 35, 6),rgb(200, 87, 81));
 }
-h1{
-    display:flex;
-    justify-content: center;
-    align-items: center;
+.container{
+   
+        display: grid;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 10%;
+        width: 80%;
+        border: 5px solid white;
+        margin-top: 200px;
+        width: 60%;
 }

@@ -1,5 +1,52 @@
 .cajero{
     display: grid;
     place-content: center;
-    background-color: grey;
+    margin: 0 auto;
+    background: linear-gradient(rgb(2, 2, 66),rgb(16, 16, 153),rgb(140, 140, 207));
+    border-radius: 10%;
+    width: 80%;
+    
+    border: 5px solid rgb(241, 240, 240);
+}
+button{
+    
+    border-radius: 8%;
+    border: 1px solid rgb(255, 255, 255);
+    margin :5px 5px 5px 5px;
+    height: 50px;
+    width: 90%;
+    background-color: rgba(62, 8, 212, 0.27);
+    box-shadow: 3px 2px;
+    color: white;
+    
+    
+}
+div h1:hover{
+    box-shadow: none;
+}
+
+
+h1{
+    border-radius: 10%;
+    height: 50px;
+    display:grid;
+    place-content: center;
+    background-color: rgb(75, 101, 135);
+    color: white;
+    padding: 15px 15px 15px 15px;
+    border: 5px solid white;
+    box-shadow: 4px 2px;
+
+}
+div button:hover{
+    background-color: rgb(163, 187, 229);
+    box-shadow:none;
+}
+
+body{
+    background: linear-gradient(rgb(21, 1, 94),rgb(93, 99, 182),rgb(39, 17, 239))
+    
+}
+.span{
+    margin: 10px auto;
 }

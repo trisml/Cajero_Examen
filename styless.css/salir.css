@@ -1,0 +1,11 @@
+body{
+    background-color: green;
+}
+.salir{
+    display: grid;
+    place-content: center;
+    margin-top: 200px;
+    background: linear-gradient(rgb(1, 67, 1),rgb(6, 172, 6),rgb(124, 240, 124));
+    border-radius: 10%;
+    border: 5px solid black;
+}

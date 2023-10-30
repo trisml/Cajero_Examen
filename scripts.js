@@ -1,90 +1,126 @@
-document.addEventListener("DOMContentLoaded",() => {
+document.addEventListener("DOMContentLoaded", () => {
+  let saldo = 1000;
+  let PIN_CORRECTO = "1111";
+  let intentosRestantes = 5;
 
-    let saldo = 1000;
-    const PIN_CORRECTO = 1111;
-    let intentosRestantes = 5;
-
-
-    //Vinculamos html y js
-    const btnDepositar = document.getElementById("depositar");
-    const btnRetirar = document.getElementById("retirar");
-    const btnTransferir = document.getElementById("transferir");
-    const btnCambiarPin = document.getElementById("cambiarPin");
-    const btnSalir = document.getElementById("salir");
-    const mensaje = document.getElementById("mensaje");
-
-    //Hacemos la firma de las funciones
-    iniciarSesion();
-    function mostrarSaldo(){
-        mensaje.innerHTML = `Su saldo actual es de : ${saldo.toFixed(2)}`
-
+  //Vinculamos html y js
+  const btnDepositar = document.getElementById("depositar");
+  const btnRetirar = document.getElementById("retirar");
+  const btnTransferir = document.getElementById("transferir");
+  const btnCambiarPin = document.getElementById("cambiarPin");
+  const btnSalir = document.getElementById("salir");
+  let historial = document.getElementById("historial");
+  let historialDatos = [];
+  
+    function agregarHistorial(operacion,cantidad){
+        historialDatos.push = ({operacion,cantidad})
+        actualizarHistorial();
     }
-    function iniciarSesion(){
-        let pin = parseFloat(prompt("Introduzca el pin de su cuenta bancaria"))
-        while(pin !== PIN_CORRECTO && intentosRestantes > 1){
-            intentosRestantes--;
-            alert(`El pin introducido es incorrecto, intentelo de nuevo. ${intentosRestantes} intentos restantes`)
-        }if(pin === PIN_CORRECTO){
-            alert("El pin introducido es correcto. Bienvenido")
-            mostrarSaldo();
+  //Hacemos la firma de las funciones
+  function actualizarHistorial(){
+    historial.innerHTML = "";
+    historialDatos.forEach((item) => {
+        const li = document.createElement("li");
+        li.innerText = `${item.operacion}: ${item.cantidad}€`;
+        historial.appendChild(li);
+        agregarHistorial();
+    })
+}
+  
+  iniciarSesion();
+  function mostrarSaldo() {
+    let mensaje = document.getElementById("mensaje");
+    mensaje.innerHTML = `Su saldo actual es: ${saldo} €`;
+  }
 
-        }else{
-            window.location.href = "./templates/cajeroBloqueado.html"
-        }
-
-
-
-
-
+  function iniciarSesion() {
+    let pin = prompt("Introduzca el pin de su cuenta bancaria");
+    while (pin !== PIN_CORRECTO && intentosRestantes > 1) {
+      intentosRestantes--;
+      pin = prompt(
+        `El pin introducido es incorrecto, intentelo de nuevo. ${intentosRestantes} intentos restantes`
+      );
     }
-    function depositar(){
-        const deposito = parseFloat(prompt("Introduzca la cantidad a depositar"))
-        if(deposito !== isNan || deposito > 0){
-            saldo += deposito
-            mostrarSaldo()
-         }else{
-            alert("Cantidad invalida, compruebelo e intentelo de nuevo")
-         }
+    if (pin === PIN_CORRECTO) {
+      alert("El pin introducido es correcto. Bienvenido");
+      historialDatos = [];
+      mostrarSaldo();
+      
+    } else {
+      window.location.href = "./templates/cajeroBloqueado.html";
     }
-    function retirar(){
-        const retiro = parseFloat(prompt("Introduzca la cantidad a retirar"))
-        if(retiro !== isNan || retiro > 0 || retiro < saldo){
+  }
+  function depositar() {
+    let deposito = parseFloat(prompt("Introduzca la cantidad a depositar"));
+    if (deposito === isNaN || deposito < 0) {
+      alert("Cantidad invalida, compruebelo e intentelo de nuevo");
+    } else {
+      saldo = saldo + deposito;
+      agregarHistorial("Ingreso",deposito);
+      mostrarSaldo();
+    }
+  }
+  function retirar(){
+    const retiro = parseFloat(prompt("Introduzca la cantidad a retirar"));
+        if(retiro !== isNaN || retiro > 0 || retiro < saldo) {
             saldo -= retiro;
             mostrarSaldo();
-        }else{
-            alert("Cantidad invalida, compruebelo e intentelo de nuevo")
-        }
+            agregarHistorial("Retirada",retiro);
+    } else {
+      alert("Cantidad invalida, compruebelo e intentelo de nuevo");
     }
-    function transferir(){
-        const transferencia = parseFloat(prompt("Introduzca la cantidad a transferir"));
-        const cuentaDestino = prompt("Introduzca la cuenta a la que transferir");
-
-        if(transferencia !== isNan || transferencia > saldo || transferencia <= 0){
-            saldo -= transferencia;
-            alert(`Ha transferido ${transferencia}€ a la cuenta ${cuentaDestino}`);
-            mostrarSaldo();
-        }else{
-            alert("Cantidad o cuenta invalidas")
-        }
-
+  }
+  
+  function transferir() {
+    const transferencia = parseFloat(
+      prompt("Introduzca la cantidad a transferir")
+    );
+    const cuentaDestino = prompt("Introduzca la cuenta a la que transferir");
+    if (
+      transferencia !== isNaN ||
+      transferencia > saldo ||
+      transferencia <= 0
+    ) {
+      saldo -= transferencia;
+      alert(`Ha transferido ${transferencia}€ a la cuenta ${cuentaDestino}`);
+      agregarHistorial("Transferencia",transferencia);
+      mostrarSaldo();
+    } else {
+      alert("Cantidad o cuenta invalidas");
     }
+  }
+  
     function cambiarPin(){
-        let pin = prompt("Introduzca el nuevo PIN: ")
-        if(pin.length === 4 && pin !== isNan){
-            PIN_CORRECTO = pin;
-        }else{
-            alert("Dicho pin no cumple los requisitos")
-        }
+       let pin = prompt("Introduzca su pin actual")
+       if(pin === PIN_CORRECTO){
+            let pinNuevo = prompt("Correcto. Ahora introduzca el nuevo: ")
+            if(pinNuevo.length === 4 && pinNuevo !== isNaN){
+                PIN_CORRECTO = pinNuevo;
+                alert("Pin cambiado con exito")
+                console.log(PIN_CORRECTO);
+            }else{
+                pinNuevo = prompt("El pin introducido no es valido, intentelo de nuevo")
+            }
+       }else{
+        pin = prompt("Ese no es tu pin, intentalo de nuevo");
+       }
     }
-    function salir(){
-        window.location.href = "./templates/salir.html"
+    
+  function salir() {
+    window.location.href = "./templates/salir.html";
+  }
+  function operaciones() {
+    let continuar = true;
+    while (continuar) {
+      alert("1.Depositar dinero");
     }
+  }
 
+  btnDepositar.addEventListener("click", depositar);
+  btnRetirar.addEventListener("click", retirar);
+  btnTransferir.addEventListener("click", transferir);
+  btnCambiarPin.addEventListener("click", cambiarPin);
+  btnSalir.addEventListener("click", salir);
+  mostrarSaldo();
+});
 
-
-
-
-
-
-
-})
