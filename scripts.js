@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded",() => {
     const mensaje = document.getElementById("mensaje");
 
     //Hacemos la firma de las funciones
-
+    iniciarSesion();
     function mostrarSaldo(){
         mensaje.innerHTML = `Su saldo actual es de : ${saldo.toFixed(2)}`
 
@@ -56,14 +56,30 @@ document.addEventListener("DOMContentLoaded",() => {
         }
     }
     function transferir(){
+        const transferencia = parseFloat(prompt("Introduzca la cantidad a transferir"));
+        const cuentaDestino = prompt("Introduzca la cuenta a la que transferir");
+
+        if(transferencia !== isNan || transferencia > saldo || transferencia <= 0){
+            saldo -= transferencia;
+            alert(`Ha transferido ${transferencia}€ a la cuenta ${cuentaDestino}`);
+            mostrarSaldo();
+        }else{
+            alert("Cantidad o cuenta invalidas")
+        }
 
     }
     function cambiarPin(){
-
+        let pin = prompt("Introduzca el nuevo PIN: ")
+        if(pin.length === 4 && pin !== isNan){
+            PIN_CORRECTO = pin;
+        }else{
+            alert("Dicho pin no cumple los requisitos")
+        }
     }
     function salir(){
-
+        window.location.href = "./templates/salir.html"
     }
+
 
 
 
