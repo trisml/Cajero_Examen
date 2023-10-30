@@ -1,0 +1,5 @@
+.cajero{
+    display: grid;
+    place-content: center;
+    background-color: grey;
+}
